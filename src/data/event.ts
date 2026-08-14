@@ -361,11 +361,6 @@ export const faq = [
       "Todos os encontros são realizados via Zoom. O link de acesso estará disponível 30 minutos antes do início de cada sessão nesta página. Copie o link e adicione à sua agenda. Também enviaremos lembretes por e-mail antes do evento.",
   },
   {
-    question: "Como entrar na Comunidade?",
-    answer:
-      "Clique em “Entrar na Comunidade” nesta página. Você será direcionado ao servidor oficial no Discord, onde acontecem as discussões, desafios e avisos do evento.",
-  },
-  {
     question: "Como funciona o certificado de participação?",
     answer: "Em breve mais informações",
   },
