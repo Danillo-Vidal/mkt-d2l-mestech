@@ -7,15 +7,22 @@ import { cn } from "@/lib/utils";
 /* ════════════════════════════════════════════════════════════════════════
  *  🔒 INTENSIDADE DO BLOQUEIO — ajuste aqui
  *
- *  BLUR   quanto o card por baixo fica embaçado (menor = mais legível)
- *  VEIL   opacidade do véu branco sobre ele (menor = vê-se mais o card)
+ *  BLUR   quanto o card fica embaçado (menor = mais nítido)
+ *  FADE   quanto o card desbota      (maior  = mais opaco/visível)
  *
- *  Ao passar o mouse os dois afrouxam, dando a sensação de "quase lá".
- *  Baixar demais não deixa o texto ilegível: a chamada tem fundo próprio,
+ *  O segundo valor de cada par, com `group-hover:`, entra ao passar o mouse.
+ *
+ *  Por que FADE e não um véu branco por cima: o véu era uma camada única sobre
+ *  toda a área, inclusive os VÃOS entre os cards — e ali o verde do bloco
+ *  aparecia lavado, em vez do pastel cheio. Desbotando só os cards, o vão fica
+ *  intacto e o verde atravessa o próprio card: widget primeiro, verde em
+ *  seguida.
+ *
+ *  Baixar demais não deixa a chamada ilegível: ela tem fundo próprio,
  *  justamente para não depender destes valores.
  * ════════════════════════════════════════════════════════════════════════ */
-const BLUR = "blur-[2px] group-hover:blur-[1px]";
-const VEIL = "bg-background/55 group-hover:bg-background/45";
+const BLUR = "blur-[0.8px] group-hover:blur-[0.5px]";
+const FADE = "opacity-65 group-hover:opacity-80";
 
 /**
  * Uma semana da Agenda: cabeçalho + cards.
@@ -76,16 +83,13 @@ function WeekCards({ week }: { week: WeekBlock }) {
        * os links dos cards alcançáveis por Tab — foco invisível em conteúdo que
        * a pessoa não pode usar.
        */}
-      <div className={cn("select-none transition-all duration-500", BLUR)} inert>
+      <div className={cn("select-none transition-all duration-500", BLUR, FADE)} inert>
         <WeekGrid week={week} />
       </div>
 
-      <div
-        className={cn(
-          "absolute inset-0 flex items-center justify-center transition-colors duration-500",
-          VEIL,
-        )}
-      >
+      {/* Sem fundo: esta camada só posiciona a chamada. Qualquer cor aqui voltaria
+          a lavar os vãos entre os cards. O desbotamento vive no FADE, acima. */}
+      <div className="absolute inset-0 flex items-center justify-center">
         {/*
          * Fixa no centro do bloco, sem acompanhar a rolagem.
          *
@@ -94,7 +98,7 @@ function WeekCards({ week }: { week: WeekBlock }) {
          * conforme se rola. Foi escolha deliberada; a alternativa (`sticky`)
          * mantinha a mensagem sempre visível, mas ela se mexia sozinha na tela.
          */}
-        <div className="flex flex-col items-center gap-3 px-4 py-10 text-center">
+        <div className="flex flex-col items-center gap-3 px-4 py-10 text-center -translate-y-12">
           <span
             className="animate-pulse-lock flex size-14 items-center justify-center rounded-full border border-xp-green/40 bg-xp-green-soft text-xp-green"
             aria-hidden="true"
