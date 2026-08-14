@@ -1,0 +1,239 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface-alt: var(--surface-alt);
+  --color-muted-on-accent: var(--muted-on-accent);
+  --color-xp-green: var(--xp-green);
+  --color-xp-green-soft: var(--xp-green-soft);
+  --color-tab-idle: var(--tab-idle);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-highlight: var(--highlight);
+  --color-label-accent: var(--label-accent);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-highlight: var(--highlight);
+}
+
+/*
+ * Paleta derivada do protótipo (Figma → SVG). O hex de origem está anotado em
+ * cada linha. Onde o valor do protótipo não alcança WCAG AA para texto
+ * (mínimo 4,5:1), a luminância foi reduzida e o desvio está anotado — a matiz
+ * e a saturação da marca são preservadas.
+ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.248 0 0); /* #212121 — 16.1:1 em branco */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.248 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.248 0 0);
+  /* #05B50F — verde da marca. Só para PREENCHIMENTO (botão, ícone), nunca texto. */
+  --primary: oklch(0.67 0.225 142.8);
+  /* Texto sobre --primary: 5.85:1. Branco daria 2.75:1 e reprovaria em AA. */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.968 0.004 247.9);
+  --secondary-foreground: oklch(0.248 0 0);
+  --muted: oklch(0.968 0.004 247.9);
+  --muted-foreground: oklch(0.551 0.023 264.4); /* #6B7280 — 4.83:1 em branco */
+  --accent: oklch(0.957 0.021 147.6); /* #E8F5E9 — fundo dos badges */
+  /* Verde para TEXTO. Escurecido de #05B50F (2.45:1 sobre --accent, reprovava)
+     para 4.52:1 sobre --accent e 5.08:1 em branco. Não clarear além de 0.51. */
+  --accent-foreground: oklch(0.507 0.225 142.8);
+  /* Texto secundário sobre o fundo --accent (bloco exclusivo da Agenda).
+     Existe porque --muted-foreground e --text-tertiary foram calibrados contra
+     branco e --surface-alt; sobre o pastel verde, que é mais escuro, os dois
+     caem para 4,30:1 e 4,19:1 e reprovam. Este dá 4,62:1 sobre o pastel e
+     continua válido em branco (5,19:1). Não clarear além de 0.534. */
+  --muted-on-accent: oklch(0.534 0.023 264.4);
+
+  /* Verde da Área Exclusiva da Pós.
+     A especificação pede #32A051. Mantivemos a matiz e a saturação, mas
+     escurecemos a luminosidade: #32A051 com texto branco dá 3,34:1 e reprova
+     em WCAG AA (mínimo 4,5:1 para texto pequeno). Este valor dá 4,52:1.
+     Diferença visual mínima; a conformidade é o que muda. */
+  --xp-green: oklch(0.551 0.152 149); /* #0C893B */
+  /* Fundo suave da mesma família, para selos e estados de aba. */
+  --xp-green-soft: oklch(0.955 0.03 149);
+  --surface-alt: oklch(0.985 0 0); /* #FAFAFA */
+  --tab-idle: oklch(0.929 0.013 255.5); /* #E2E8F0 — aba de semana não selecionada */
+  /* Escurecido de #9F9F9F (2.65:1, reprovava) para 4.71:1 em branco. */
+  --text-tertiary: oklch(0.557 0 0);
+  --warning: oklch(0.54 0.18 60);
+  --warning-soft: oklch(0.96 0.06 100);
+  --info: oklch(0.95 0.025 240); /* fundo pastel azul, mesmo padrão do --accent */
+  --info-foreground: oklch(0.5 0.16 240); /* 4.6:1 sobre --info, 6.1:1 em branco */
+  --highlight: oklch(0.49 0.21 28);
+  --highlight: oklch(0.49 0.21 28);
+  --shadow-card: 0 1px 2px oklch(0.248 0 0 / 6%), 0 8px 24px oklch(0.248 0 0 / 5%);
+  --shadow-featured: 0 8px 40px oklch(0.67 0.225 142.8 / 18%);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.907 0 0); /* #E0E0E0 */
+  --input: oklch(0.907 0 0);
+  --ring: oklch(0.67 0.225 142.8);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --label-accent: oklch(0.507 0.225 142.8);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --info: oklch(0.279 0.041 260.031);
+  --info-foreground: oklch(0.75 0.08 240);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --label-accent: oklch(0.8 0.13 148.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  /*
+   * ⚠️  NÃO troque para `smooth`.
+   *
+   * A rolagem animada das âncoras é feita em JavaScript, em src/lib/scroll.ts.
+   * Com `smooth` aqui, TODA rolagem da página vira animação do navegador —
+   * inclusive cada passo daquela animação e as que o TanStack Router dispara na
+   * restauração de scroll. As duas competem e a página anda um trecho curto e
+   * para. O comentário no topo de scroll.ts explica em detalhe.
+   *
+   * A preferência por menos movimento é respeitada lá, no próprio scroll.ts.
+   */
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Cadeado pulsante dos cards bloqueados da Área Exclusiva. */
+@keyframes pulse-lock {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+
+@utility animate-pulse-lock {
+  animation: pulse-lock 2.6s ease-in-out infinite;
+}
+
+/* Movimento que começa sozinho e não para incomoda quem tem sensibilidade
+   vestibular. O cadeado continua visível — só deixa de pulsar. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-lock {
+    animation: none;
+  }
+}
