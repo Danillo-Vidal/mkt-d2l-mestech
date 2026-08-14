@@ -362,7 +362,7 @@ export const faq = [
   },
   {
     question: "Como funciona o certificado de participação?",
-    answer: "Em breve mais informações",
+    answer: "O certificado será emitido em até 7 dias úteis após o encerramento do evento. Para ter direito à emissão, é necessário participar dos encontros e responder às pesquisas de feedback correspondentes. Após a emissão, as instruções de acesso serão enviadas por e-mail.",
   },
   {
     question: "Onde encontro os materiais complementares e replays?",
